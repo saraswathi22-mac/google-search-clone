@@ -3,8 +3,14 @@ import { API_KEY, CONTEXT_KEY } from "../config";
 
 export const useImageSearch = (term) => {
   const [images, setImages] = useState([]);
+  const [start, setStart] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setImages([]);
+    setStart(1);
+  }, [term]);
 
   useEffect(() => {
     if (!term) return;
@@ -17,7 +23,7 @@ export const useImageSearch = (term) => {
         const res = await fetch(
           `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${encodeURIComponent(
             term,
-          )}&searchType=image&start=1`,
+          )}&searchType=image&start=${start}`,
         );
 
         if (!res.ok) {
@@ -25,7 +31,15 @@ export const useImageSearch = (term) => {
         }
 
         const result = await res.json();
-        setImages(result.items || []);
+        setImages((prev) => {
+          const existing = new Set(prev.map((img) => img.link));
+
+          const newImages = (result.items || []).filter(
+            (img) => !existing.has(img.link),
+          );
+
+          return [...prev, ...newImages];
+        });
       } catch (err) {
         setError(err.message);
       } finally {
@@ -34,11 +48,16 @@ export const useImageSearch = (term) => {
     };
 
     fetchImages();
-  }, [term]);
+  }, [term, start]);
+
+  const loadMore = () => {
+    setStart((prev) => prev + 10);
+  };
 
   return {
     images,
     loading,
     error,
+    loadMore,
   };
 };

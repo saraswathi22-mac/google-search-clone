@@ -1,17 +1,40 @@
+import { useEffect, useRef } from "react";
 import { useImageSearch } from "../../hooks/useImageSearch";
 import "./Photos.css";
 
 function Photos({ term }) {
-  const { images, loading, error } = useImageSearch(term);
+  const { images, loading, error, loadMore } = useImageSearch(term);
+  const loaderRef = useRef(null);
 
-  if (loading) return <p>Loading images...</p>;
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          loadMore();
+        }
+      },
+      {
+        threshold: 1,
+      },
+    );
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [loadMore]);
+
+  if (loading && images.length === 0) {
+    return <p>Loading images...</p>;
+  }
   if (error) return <p>{error}</p>;
 
   return (
     <div className="photos">
-      {images.map((image) => (
+      {images.map((image, index) => (
         <a
-          key={image.link}
+          key={`${image.link}-${index}`}
           href={image.image.contextLink}
           target="_blank"
           rel="noopener noreferrer"
@@ -30,6 +53,10 @@ function Photos({ term }) {
           <p className="photoTitle">{image.title}</p>
         </a>
       ))}
+
+      {loading && <p className="loadingMore">Loading more images...</p>}
+
+      <div ref={loaderRef}></div>
     </div>
   );
 }
