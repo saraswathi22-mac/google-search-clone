@@ -22,6 +22,7 @@ import { useTheme } from "../../context/ThemeContext";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import Pagination from "../../components/Pagination/Pagination";
+import Photos from "../../components/Photos/Photos";
 
 function SearchPage() {
   const { term } = useStateValue();
@@ -161,93 +162,100 @@ function SearchPage() {
 
       {/* 🔹 Results */}
       {term?.term && (
-        <div className="results">
-          {loading ? (
-            <>
-              {[...Array(6)].map((_, i) => (
-                <ResultSkeleton key={i} />
-              ))}
-            </>
-          ) : data?.items?.length ? (
-            <>
-              <div className="resultsInfo">
-                <span>
-                  About {data?.searchInformation?.formattedTotalResults} results
-                  ({data?.searchInformation?.formattedSearchTime} seconds)
-                </span>
+        <>
+          {activeLabel === "All" && (
+            <div className="results">
+              {loading ? (
+                <>
+                  {[...Array(6)].map((_, i) => (
+                    <ResultSkeleton key={i} />
+                  ))}
+                </>
+              ) : data?.items?.length ? (
+                <>
+                  <div className="resultsInfo">
+                    <span>
+                      About {data?.searchInformation?.formattedTotalResults}{" "}
+                      results ({data?.searchInformation?.formattedSearchTime}{" "}
+                      seconds)
+                    </span>
 
-                <Tooltip
-                  title="Powered by Google Programmable Search"
-                  arrow
-                  placement="right"
-                  slotProps={{
-                    tooltip: {
-                      sx: {
-                        bgcolor: "var(--surface-color)",
-                        color: "var(--text-primary)",
-                        border: "1px solid var(--border-color)",
-                        borderRadius: "10px",
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        px: 1.2,
-                        py: 0.8,
-                        boxShadow: "0 4px 12px rgba(0,0,0,.08)",
-                      },
-                    },
-                    arrow: {
-                      sx: {
-                        color: "var(--surface-color)",
-                      },
-                    },
-                  }}
-                >
-                  <span>
-                    <InfoOutlinedIcon className="resultsInfoIcon" />
-                  </span>
-                </Tooltip>
-              </div>
-
-              {data.items.map((item) => (
-                <div className="resultRow" key={item.link}>
-                  {/* 🔹 Text Section */}
-                  <div className="result">
-                    <SiteInfo url={item.link} />
-
-                    <div className="resultContent">
-                      <a
-                        className="resultTitle"
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {highlightText(item.title, debouncedTerm)}
-                      </a>
-
-                      <p className="resultSnippet">
-                        {highlightText(item.snippet, debouncedTerm)}
-                      </p>
-                    </div>
+                    <Tooltip
+                      title="Powered by Google Programmable Search"
+                      arrow
+                      placement="right"
+                      slotProps={{
+                        tooltip: {
+                          sx: {
+                            bgcolor: "var(--surface-color)",
+                            color: "var(--text-primary)",
+                            border: "1px solid var(--border-color)",
+                            borderRadius: "10px",
+                            fontSize: "12px",
+                            fontWeight: 500,
+                            px: 1.2,
+                            py: 0.8,
+                            boxShadow: "0 4px 12px rgba(0,0,0,.08)",
+                          },
+                        },
+                        arrow: {
+                          sx: {
+                            color: "var(--surface-color)",
+                          },
+                        },
+                      }}
+                    >
+                      <span>
+                        <InfoOutlinedIcon className="resultsInfoIcon" />
+                      </span>
+                    </Tooltip>
                   </div>
 
-                  {/* 🔹 Thumbnail */}
-                  <ResultThumbnail item={item} />
-                </div>
-              ))}
+                  {data.items.map((item) => (
+                    <div className="resultRow" key={item.link}>
+                      {/* 🔹 Text Section */}
+                      <div className="result">
+                        <SiteInfo url={item.link} />
 
-              {data?.items?.length > 0 && (
-                <Pagination
-                  page={page}
-                  setPage={setPage}
-                  totalPages={10}
-                  hasPreviousPage={!!data?.queries?.previousPage}
-                  hasNextPage={!!data?.queries?.nextPage}
-                />
+                        <div className="resultContent">
+                          <a
+                            className="resultTitle"
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {highlightText(item.title, debouncedTerm)}
+                          </a>
+
+                          <p className="resultSnippet">
+                            {highlightText(item.snippet, debouncedTerm)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 🔹 Thumbnail */}
+                      <ResultThumbnail item={item} />
+                    </div>
+                  ))}
+
+                  {data?.items?.length > 0 && (
+                    <Pagination
+                      page={page}
+                      setPage={setPage}
+                      totalPages={10}
+                      hasPreviousPage={!!data?.queries?.previousPage}
+                      hasNextPage={!!data?.queries?.nextPage}
+                    />
+                  )}
+                </>
+              ) : (
+                <p className="noResults">No results found.</p>
               )}
-            </>
-          ) : (
-            <p className="noResults">No results found.</p>
+            </div>
           )}
-        </div>
+
+          {activeLabel === "Photos" && <Photos term={debouncedTerm} />}
+        </>
       )}
     </div>
   );
