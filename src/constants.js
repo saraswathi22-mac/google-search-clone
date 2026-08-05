@@ -1,4 +1,6 @@
-export const searchPageOptionsLeft = ["All", "Photos", "Videos", "Updates"];
+export const searchPageOptionsLeft = ["All", "Photos"];
+
+// , "Videos", "Updates"
 
 export const searchPageMore = ["Maps", "Web", "Books"];
 

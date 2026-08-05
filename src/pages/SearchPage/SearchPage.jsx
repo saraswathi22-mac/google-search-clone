@@ -129,7 +129,7 @@ function SearchPage() {
               </div>
             ))}
 
-            <div className="sP_option_dropdown">
+            {/* <div className="sP_option_dropdown">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -147,7 +147,7 @@ function SearchPage() {
               </button>
 
               {show && <Dropdown show={show} items={searchPageMore} />}
-            </div>
+            </div> */}
           </div>
 
           {/* <div className="sP_optionsRight">
