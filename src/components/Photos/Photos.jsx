@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useImageSearch } from "../../hooks/useImageSearch";
+import ImageSkeleton from "../ImageSkeleton/ImageSkeleton";
 import "./Photos.css";
 
 function Photos({ term }) {
@@ -26,7 +27,7 @@ function Photos({ term }) {
   }, [loadMore]);
 
   if (loading && images.length === 0) {
-    return <p>Loading images...</p>;
+    return <ImageSkeleton />;
   }
   if (error) return <p>{error}</p>;
 
