@@ -2,9 +2,11 @@ import { useEffect, useRef } from "react";
 import { useImageSearch } from "../../hooks/useImageSearch";
 import ImageSkeleton from "../ImageSkeleton/ImageSkeleton";
 import "./Photos.css";
+import ErrorState from "../ErrorState/ErrorState";
+import EmptyState from "../EmptyState/EmptyState";
 
 function Photos({ term }) {
-  const { images, loading, error, loadMore } = useImageSearch(term);
+  const { images, loading, error, loadMore, retry } = useImageSearch(term);
   const loaderRef = useRef(null);
 
   useEffect(() => {
@@ -29,7 +31,14 @@ function Photos({ term }) {
   if (loading && images.length === 0) {
     return <ImageSkeleton />;
   }
-  if (error) return <p>{error}</p>;
+
+  if (error && images.length === 0) {
+    return <ErrorState onRetry={retry} />;
+  }
+
+  if (!loading && images.length === 0) {
+    return <EmptyState />;
+  }
 
   return (
     <div className="photos">
@@ -55,7 +64,7 @@ function Photos({ term }) {
         </a>
       ))}
 
-      {loading && <p className="loadingMore">Loading more images...</p>}
+      {loading && images.length > 0 && <ImageSkeleton count={4} />}
 
       <div ref={loaderRef}></div>
     </div>
