@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useImageSearch } from "../../hooks/useImageSearch";
 import ImageSkeleton from "../ImageSkeleton/ImageSkeleton";
 import "./Photos.css";
@@ -6,19 +6,21 @@ import ErrorState from "../ErrorState/ErrorState";
 import EmptyState from "../EmptyState/EmptyState";
 
 function Photos({ term }) {
-  const { images, loading, error, loadMore, retry } = useImageSearch(term);
+  const { images, loading, error, canLoadMore, loadMore, retry, showMore } =
+    useImageSearch(term);
+
   const loaderRef = useRef(null);
 
   useEffect(() => {
+    if (!canLoadMore) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !loading) {
           loadMore();
         }
       },
-      {
-        threshold: 1,
-      },
+      { threshold: 1 },
     );
 
     if (loaderRef.current) {
@@ -26,7 +28,7 @@ function Photos({ term }) {
     }
 
     return () => observer.disconnect();
-  }, [loadMore]);
+  }, [loadMore, loading, canLoadMore]);
 
   if (loading && images.length === 0) {
     return <ImageSkeleton />;
@@ -66,7 +68,15 @@ function Photos({ term }) {
 
       {loading && images.length > 0 && <ImageSkeleton count={4} />}
 
-      <div ref={loaderRef}></div>
+      {!canLoadMore ? (
+        <div className="loadMorePrompt">
+          <p>You've viewed {images.length} images.</p>
+
+          <button onClick={showMore}>Show More Images</button>
+        </div>
+      ) : (
+        <div ref={loaderRef}></div>
+      )}
     </div>
   );
 }

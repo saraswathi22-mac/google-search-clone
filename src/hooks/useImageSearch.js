@@ -6,10 +6,11 @@ export const useImageSearch = (term) => {
   const [start, setStart] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [canLoadMore, setCanLoadMore] = useState(true);
 
   const fetchImages = async () => {
     if (!term) return;
-    
+
     setLoading(true);
     setError(null);
 
@@ -44,6 +45,7 @@ export const useImageSearch = (term) => {
   useEffect(() => {
     setImages([]);
     setStart(1);
+    setCanLoadMore(true);
   }, [term]);
 
   useEffect(() => {
@@ -51,6 +53,18 @@ export const useImageSearch = (term) => {
   }, [term, start]);
 
   const loadMore = () => {
+    if (!canLoadMore || loading) return;
+
+    if (images.length > 0 && images.length % 20 === 0) {
+      setCanLoadMore(false);
+      return;
+    }
+
+    setStart((prev) => prev + 10);
+  };
+
+  const showMore = () => {
+    setCanLoadMore(true);
     setStart((prev) => prev + 10);
   };
 
@@ -58,7 +72,9 @@ export const useImageSearch = (term) => {
     images,
     loading,
     error,
+    canLoadMore,
     loadMore,
     retry: fetchImages,
+    showMore,
   };
 };
