@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import { API_KEY, CONTEXT_KEY } from "../config";
 
+const BATCH_SIZE = 20;
+
 export const useImageSearch = (term) => {
   const [images, setImages] = useState([]);
   const [start, setStart] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
   const [canLoadMore, setCanLoadMore] = useState(true);
+  const [nextPauseAt, setNextPauseAt] = useState(BATCH_SIZE);
 
   const fetchImages = async () => {
     if (!term) return;
@@ -26,6 +30,7 @@ export const useImageSearch = (term) => {
       }
 
       const result = await res.json();
+
       setImages((prev) => {
         const existing = new Set(prev.map((img) => img.link));
 
@@ -42,28 +47,34 @@ export const useImageSearch = (term) => {
     }
   };
 
+  // Reset on new search
   useEffect(() => {
     setImages([]);
     setStart(1);
     setCanLoadMore(true);
+    setNextPauseAt(BATCH_SIZE);
   }, [term]);
 
+  // Fetch images
   useEffect(() => {
     fetchImages();
   }, [term, start]);
 
+  // Pause after every batch (20, 40, 60...)
+  useEffect(() => {
+    if (canLoadMore && images.length > 0 && images.length === nextPauseAt) {
+      setCanLoadMore(false);
+    }
+  }, [images.length, nextPauseAt, canLoadMore]);
+
   const loadMore = () => {
     if (!canLoadMore || loading) return;
-
-    if (images.length > 0 && images.length % 20 === 0) {
-      setCanLoadMore(false);
-      return;
-    }
 
     setStart((prev) => prev + 10);
   };
 
   const showMore = () => {
+    setNextPauseAt((prev) => prev + BATCH_SIZE);
     setCanLoadMore(true);
     setStart((prev) => prev + 10);
   };

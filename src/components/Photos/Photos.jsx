@@ -68,15 +68,17 @@ function Photos({ term }) {
 
       {loading && images.length > 0 && <ImageSkeleton count={4} />}
 
-      {!canLoadMore ? (
+      {!canLoadMore && (
         <div className="loadMorePrompt">
-          <p>You've viewed {images.length} images.</p>
+          <p>Want to explore more images?</p>
 
-          <button onClick={showMore}>Show More Images</button>
+          <button className="showMoreBtn" onClick={showMore}>
+            Show More
+          </button>
         </div>
-      ) : (
-        <div ref={loaderRef}></div>
       )}
+
+      {canLoadMore && <div ref={loaderRef} />}
     </div>
   );
 }
