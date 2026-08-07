@@ -23,6 +23,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import Pagination from "../../components/Pagination/Pagination";
 import Photos from "../../components/Photos/Photos";
+import EmptySearchState from "../../components/EmptySearchState/EmptySearchState";
 
 function SearchPage() {
   const { term } = useStateValue();
@@ -249,7 +250,7 @@ function SearchPage() {
                   )}
                 </>
               ) : (
-                <p className="noResults">No results found.</p>
+                <EmptySearchState term={debouncedTerm} />
               )}
             </div>
           )}
