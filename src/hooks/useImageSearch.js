@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { API_KEY, CONTEXT_KEY } from "../config";
 
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 30;
+const PAGE_SIZE = 10;
 
 export const useImageSearch = (term) => {
   const [images, setImages] = useState([]);
@@ -47,7 +48,7 @@ export const useImageSearch = (term) => {
     }
   };
 
-  // Reset on new search
+  // Reset when search term changes
   useEffect(() => {
     setImages([]);
     setStart(1);
@@ -55,28 +56,29 @@ export const useImageSearch = (term) => {
     setNextPauseAt(BATCH_SIZE);
   }, [term]);
 
-  // Fetch images
+  // Fetch when search term or pagination changes
   useEffect(() => {
     fetchImages();
   }, [term, start]);
 
-  // Pause after every batch (20, 40, 60...)
+  // Pause infinite scroll after each 20-image batch
   useEffect(() => {
-    if (canLoadMore && images.length > 0 && images.length === nextPauseAt) {
+    if (images.length >= nextPauseAt) {
       setCanLoadMore(false);
     }
-  }, [images.length, nextPauseAt, canLoadMore]);
+  }, [images.length, nextPauseAt]);
 
+  // Called by IntersectionObserver
   const loadMore = () => {
     if (!canLoadMore || loading) return;
 
-    setStart((prev) => prev + 10);
+    setStart((prev) => prev + PAGE_SIZE);
   };
 
+  // Called by Show More button
   const showMore = () => {
     setNextPauseAt((prev) => prev + BATCH_SIZE);
     setCanLoadMore(true);
-    setStart((prev) => prev + 10);
   };
 
   return {
