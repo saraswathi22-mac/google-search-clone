@@ -86,7 +86,11 @@ The interface adapts across desktop, tablet, and mobile screen sizes.
 
 ## 📸 Preview
 
-<!-- Add screenshots or GIF here -->
+<p align="center">
+  <img src="./public/screenshots/home-page.png" alt="Scout Home Page" width="32%" />
+  <img src="./public/screenshots/search-page.png" alt="Scout Search Page" width="32%" />
+  <img src="./public/screenshots/search-image.png" alt="Scout Image Search" width="32%" />
+</p>
 
 ---
 
