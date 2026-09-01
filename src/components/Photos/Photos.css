@@ -87,4 +87,11 @@
     margin-top: 6px;
     font-size: 13px;
   }
+
+  .pagination {
+    justify-content: center;
+    gap: 8px;
+    margin: 28px 0 0;
+    padding-bottom: 20px;
+  }
 }
