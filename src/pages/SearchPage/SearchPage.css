@@ -380,14 +380,14 @@ body.dark .resultRow {
 
   .resultsInfo {
     font-size: 12px;
-    padding-left: 0;
+    margin-bottom: 12px;
   }
 
   .resultRow {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 92px;
+    grid-template-columns: minmax(0, 1fr) 88px;
     align-items: start;
-    gap: 12px;
+    gap: 10px;
     padding: 12px;
   }
 
@@ -417,6 +417,8 @@ body.dark .resultRow {
   }
 
   .resultSnippet {
+    margin-top: 4px;
+    line-height: 1.45;
     max-width: 100%;
   }
 
