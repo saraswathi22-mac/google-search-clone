@@ -10,7 +10,12 @@ import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import KeyboardRoundedIcon from "@mui/icons-material/KeyboardRounded";
 
-function Search({ inputValue, showFeatures = true, className = "" }) {
+function Search({
+  inputValue,
+  showFeatures = true,
+  className = "",
+  showMobileLogo = false,
+}) {
   const { term, dispatch } = useStateValue();
   const [input, setInput] = useState(inputValue || "");
   const [suggestions, setSuggestions] = useState([]);
@@ -190,8 +195,9 @@ function Search({ inputValue, showFeatures = true, className = "" }) {
   return (
     <form className={`search ${className}`} onSubmit={handleSearch}>
       <div
-        className={`search_wrapper ${showSuggestions && suggestions.length > 0 ? "expanded" : ""
-          }`}
+        className={`search_wrapper ${
+          showSuggestions && suggestions.length > 0 ? "expanded" : ""
+        }`}
         ref={searchRef}
       >
         <SearchInput
@@ -201,6 +207,7 @@ function Search({ inputValue, showFeatures = true, className = "" }) {
           startListening={startListening}
           isListening={isListening}
           inputRef={inputRef}
+          showMobileLogo={showMobileLogo}
         />
         {showSuggestions && suggestions.length > 0 && (
           <SearchSuggestions

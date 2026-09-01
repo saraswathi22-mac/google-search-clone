@@ -8,10 +8,15 @@ function SearchInput({
   startListening,
   isListening,
   inputRef,
+  showMobileLogo = false,
 }) {
   return (
     <div className="search_data">
-      <SearchIcon className="searchIcon" />
+      {showMobileLogo ? (
+        <img src="/scout-logo.png" alt="Scout" className="mobileSearchLogo" />
+      ) : (
+        <SearchIcon className="searchIcon" />
+      )}
 
       <input
         ref={inputRef}
@@ -21,6 +26,7 @@ function SearchInput({
         onKeyDown={handleKeyDown}
         placeholder="Search Scout..."
       />
+
       <MicIcon
         onClick={startListening}
         className={`micIcon ${isListening ? "listening" : ""}`}

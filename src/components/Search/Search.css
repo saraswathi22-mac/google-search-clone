@@ -194,6 +194,10 @@ body.dark .activeSuggestion {
   color: var(--accent-color);
 }
 
+.mobileSearchLogo {
+  display: none;
+}
+
 /* MOBILE SEARCH BAR */
 
 @media (max-width: 768px) {
@@ -227,5 +231,14 @@ body.dark .activeSuggestion {
 
   .suggestionItem {
     padding: 12px 16px;
+  }
+
+  .mobileSearchLogo {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-right: 6px;
   }
 }

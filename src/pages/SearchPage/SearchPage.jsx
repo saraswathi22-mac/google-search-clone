@@ -101,7 +101,7 @@ function SearchPage() {
         </div>
 
         <div className="sP_headerBody">
-          <Search showFeatures={false} inputValue={term?.term} />
+          <Search showFeatures={false} inputValue={term?.term} showMobileLogo />
 
           <button
             className="themeToggle"
