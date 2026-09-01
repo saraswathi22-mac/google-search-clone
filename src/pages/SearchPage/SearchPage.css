@@ -292,26 +292,27 @@ body.dark .resultRow {
   /* HEADER */
 
   .sP_header {
-    padding: 12px 16px;
+    padding: 14px 16px;
     align-items: center;
   }
 
-  .sP_logo {
+  .sP_logoWrapper {
     display: none;
   }
 
   .sP_headerBody {
     margin-left: 0;
     width: 100%;
+    flex: 1;
 
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .sP_headerBody .themeToggle {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 45px;
     flex-shrink: 0;
   }
 
@@ -321,6 +322,7 @@ body.dark .resultRow {
 
   .sP_headerBody > .search > .search_wrapper > .search_data {
     width: 100%;
+    height: 42px;
     box-sizing: border-box;
   }
 
