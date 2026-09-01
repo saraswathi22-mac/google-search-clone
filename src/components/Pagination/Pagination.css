@@ -36,3 +36,20 @@
 .paginationBtn:not(.paginationBtnActive):hover:not(:disabled) {
   background: var(--hover-color);
 }
+
+@media (max-width: 768px) {
+  .pagination {
+    justify-content: center;
+    gap: 8px;
+    margin: 28px 0 40px;
+  }
+
+  .paginationText {
+    display: none;
+  }
+
+  .paginationBtn {
+    padding: 9px 12px;
+    min-width: 40px;
+  }
+}
