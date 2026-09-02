@@ -9,6 +9,7 @@ import SearchSuggestions from "./SearchSuggestions";
 import BoltRoundedIcon from "@mui/icons-material/BoltRounded";
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import KeyboardRoundedIcon from "@mui/icons-material/KeyboardRounded";
+import { useDebounce } from "../../hooks/useDebounce";
 
 function Search({
   inputValue,
@@ -22,6 +23,8 @@ function Search({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
+  const debouncedSearchTerm = useDebounce(term?.term, 500);
+
   const searchRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -31,6 +34,10 @@ function Search({
 
   const recentSearches =
     JSON.parse(localStorage.getItem("recentSearches")) || [];
+
+  useEffect(() => {
+    setInput(debouncedSearchTerm || "");
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     if (!transcript) return;
