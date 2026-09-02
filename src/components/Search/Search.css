@@ -130,11 +130,6 @@ body.dark .suggestions {
   background: var(--hover-color);
 }
 
-body.dark .suggestionItem:hover,
-body.dark .activeSuggestion {
-  background: rgba(255, 255, 255, 0.08);
-}
-
 .feature-pills-container {
   display: flex;
   justify-content: center;
