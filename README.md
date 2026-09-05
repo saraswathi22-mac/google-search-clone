@@ -84,6 +84,24 @@ The interface adapts across desktop, tablet, and mobile screen sizes.
 
 ---
 
+## 🎥 Demo
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=Q-f_-wiYyGY">
+    <img
+      src="https://img.youtube.com/vi/Q-f_-wiYyGY/maxresdefault.jpg"
+      width="800"
+      alt="Scout Search demo"
+    />
+  </a>
+</p>
+
+<p align="center">
+  <em>Watch the Scout demo to see the search experience in action.</em>
+</p>
+
+---
+
 ## 📸 Preview
 
 <p align="center">
